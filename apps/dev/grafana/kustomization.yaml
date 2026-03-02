@@ -51,16 +51,3 @@ patches:
               label: grafana_datasource
               labelValue: "1"
               searchNamespace: ALL
-                  folder: ''
-                  type: file
-                  disableDeletion: false
-                  editable: true
-                  options:
-                    path: /var/lib/grafana/dashboards/default
-
-          dashboards:
-            default:
-              kubernetes-cluster:
-                gnetId: 7249
-                revision: 1
-                datasource: VictoriaMetrics
