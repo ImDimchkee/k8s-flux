@@ -1,0 +1,59 @@
+# helmrelease
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics-k8s-stack
+  namespace: victoria-metrics
+spec:
+  interval: 24h0m
+  chart:
+    spec:
+      chart: victoria-metrics-k8s-stack
+      version: 0.71.x
+      sourceRef:
+        kind: HelmRepository
+        name: victoria-metrics
+  install:
+    createNamespace: false
+  
+  values:
+# enabled parts
+    kubeDns:
+      enabled: true
+      service:
+        enabled: true
+
+    prometheus-node-exporter:
+      enabled: true
+      fullnameOverride: "node-exporter"
+
+    kube-state-metrics:
+      enabled: true
+      fullnameOverride: "kube-state-metrics"
+
+    victoria-metrics-operator:
+      fullnameOverride: "victoria-metrics-operator"
+
+# disabled parts
+    grafana:
+      enabled: false
+
+    coreDns:
+      enabled: false
+      service:
+        enabled: false
+
+    kubeEtcd:
+      enabled: false
+      service:
+        enabled: false
+
+    kubeScheduler:
+      enabled: false
+      service:
+        enabled: false
+
+    kubeControllerManager:
+      enabled: false
+      service:
+        enabled: false
