@@ -1,0 +1,66 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/grafana
+  
+patches:
+  - target:
+      kind: HelmRelease
+      name: grafana
+    patch: |
+      - op: add
+        path: /spec/values
+        value:
+          persistence:
+            enabled: true
+            size: 5Gi
+          
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 1Gi
+              cpu: 1000m
+          
+          datasources:
+            datasources.yaml:
+              apiVersion: 1
+              datasources:
+                - name: VictoriaMetrics
+                  type: prometheus
+                  url: http://vmsingle-victoria-metrics-k8s-stack.victoria-metrics.svc:8428
+                  isDefault: true
+                  jsonData:
+                    httpMethod: POST
+          
+          adminPassword: admin
+          
+          service:
+            type: NodePort
+            nodePort: 30080
+          
+          sidecar:
+            dashboards:
+              enabled: true
+              label: grafana_dashboard
+              labelValue: "1"
+              searchNamespace: ALL
+            datasources:
+              enabled: true
+              label: grafana_datasource
+              labelValue: "1"
+              searchNamespace: ALL
+                  folder: ''
+                  type: file
+                  disableDeletion: false
+                  editable: true
+                  options:
+                    path: /var/lib/grafana/dashboards/default
+
+          dashboards:
+            default:
+              kubernetes-cluster:
+                gnetId: 7249
+                revision: 1
+                datasource: VictoriaMetrics
