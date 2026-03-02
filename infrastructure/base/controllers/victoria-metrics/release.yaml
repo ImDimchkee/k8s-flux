@@ -29,12 +29,12 @@ spec:
               storage: 5Gi
         resources:
           requests:
-            memory: 512MI
+            memory: 512Mi
             cpu: 250m
           limits:
             memory: 1Gi
             cpu: 1000m
-            
+
     vmagent:
       enabled: true
       spec:
