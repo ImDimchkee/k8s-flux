@@ -1,17 +1,32 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1
+kind: Gateway
 metadata:
-  name: name
-  namespace: default
+  name: grafana
+  namespace: grafana
 spec:
-  rules:
-    - host: example.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: service-name
-                port:
-                  number: 80
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  hosts:
+    - "grafana.arch.local"
+  gateways:
+    - grafana
+  http:
+    - route:
+        - destination:
+            host: grafana.grafana.svc.cluster.local
+            port:
+              number: 80
