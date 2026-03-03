@@ -39,7 +39,6 @@ patches:
           service:
             type: NodePort
             nodePort: 30080
-          
           sidecar:
             dashboards:
               enabled: true
@@ -51,3 +50,5 @@ patches:
               label: grafana_datasource
               labelValue: "1"
               searchNamespace: ALL
+          initChownData:
+            enabled: false
