@@ -6,6 +6,14 @@ resources:
   
 patches:
   - target:
+      kind: Namespace
+      name: grafana
+    patch: |
+      - op: add
+        path: /metadata/labels/istio-injection
+        value: enabled
+
+  - target:
       kind: HelmRelease
       name: grafana
     patch: |
