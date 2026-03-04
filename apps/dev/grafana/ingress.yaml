@@ -12,7 +12,16 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "*"
+        - "grafana.arch.local"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: wildcard-arch-local-tls
+      hosts:
+        - "grafana.arch.local"
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
