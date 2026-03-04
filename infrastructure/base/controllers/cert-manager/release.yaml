@@ -10,6 +10,6 @@ spec:
       version: 1.11.0
       sourceRef:
         kind: HelmRepository
-        name: jetstack
-        namespace: flux-system
+        name: cert-manager
+        namespace: cert-manager
   interval: 5m
