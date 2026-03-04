@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - ../../base/controllers/victoria-metrics
   - ../../base/controllers/istio-mesh
+  - ../../base/controllers/cert-manager
